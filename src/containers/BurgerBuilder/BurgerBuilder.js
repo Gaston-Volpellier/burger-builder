@@ -14,7 +14,7 @@ const BurgerBuilder = () => {
 
     return (
         <>
-            <Burger />
+            <Burger ingredients={recipe.ingredients}/>
             <div>
                 Build Controls
             </div>

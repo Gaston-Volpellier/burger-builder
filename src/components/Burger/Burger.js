@@ -2,20 +2,19 @@ import React from 'react'
 import './Burger.css'
 import BurguerIngredient from './BurgerIngredient/BurgerIngredient'
 
-const burger = (props) => {
-    const ingredientsArray = Object.keys(props.ingredients)
-        .map(igKey => {
-            
+const Burger = (props) => {
+  const { ingredients } = props
+  return (
+    <div className="burger">
+      <BurguerIngredient type="bread-top" />
+      {Object.entries(ingredients).map(([prop, value], ix) => {
+        return [...Array(value)].map((_, innnerIx) => {
+          return <BurguerIngredient key={innnerIx} type={prop} />
         })
-
-    return (
-        <div className='Burger'>
-            <BurguerIngredient type="bread-top" />
-            <BurguerIngredient type="cheese" />
-            <BurguerIngredient type="meat" />
-            <BurguerIngredient type="bread-bottom" />
-        </div>
-    )
+      })}
+      <BurguerIngredient type="bread-bottom" />
+    </div>
+  )
 }
 
-export default burger;
+export default Burger
