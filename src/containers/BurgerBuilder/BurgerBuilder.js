@@ -18,11 +18,15 @@ const BurgerBuilder = () => {
       meat: 0,
     },
     totalPrice: 0,
+    purchasable: false,
   })
 
+  const updatePurchase = () => {}
+
   const addRecipeHandler = (type) => {
-    let ingredients = recipe.ingredients
-    let newPrice = recipe.totalPrice + INGREDIENT_PRICES[type]
+    const { totalPrice, ingredients } = recipe
+
+    const newPrice = totalPrice + INGREDIENT_PRICES[type]
 
     ingredients[type] = ingredients[type] + 1
     setRecipe({ ingredients: ingredients, totalPrice: newPrice })
@@ -33,15 +37,14 @@ const BurgerBuilder = () => {
       return
     }
 
-    let ingredients = recipe.ingredients
-    let newPrice = recipe.totalPrice - INGREDIENT_PRICES[type]
+    const ingredients = recipe.ingredients
+    const newPrice = recipe.totalPrice - INGREDIENT_PRICES[type]
 
     ingredients[type] = ingredients[type] - 1
     setRecipe({ ingredients: ingredients, totalPrice: newPrice })
   }
 
   const disabledInfo = { ...recipe.ingredients }
-
   for (let key in disabledInfo) {
     disabledInfo[key] = disabledInfo[key] <= 0
   }
@@ -53,6 +56,7 @@ const BurgerBuilder = () => {
         ingredientAdded={addRecipeHandler}
         ingredientRemove={removeRecipeHandler}
         disabled={disabledInfo}
+        price={recipe.totalPrice}
       />
     </>
   )
