@@ -8,6 +8,7 @@ const Burger = (props) => {
   let transformedIngredients = Object.entries(ingredients)
     .map(([prop, value], ix) => {
       return [...Array(value)].map((_, innnerIx) => {
+        console.log('InnerIx: ' + innnerIx)
         return <BurguerIngredient key={innnerIx} type={prop} />
       })
     })
@@ -15,14 +16,14 @@ const Burger = (props) => {
       return arr.concat(el)
     }, [])
 
-  if (transformedIngredients.length == 0) {
+  if (transformedIngredients.length === 0) {
     transformedIngredients = <p>Add your ingredients</p>
   }
   return (
     <div className="burger">
-      <BurguerIngredient type="bread-top" />
+      <BurguerIngredient type="bread-top" key="breadTop" />
       {transformedIngredients}
-      <BurguerIngredient type="bread-bottom" />
+      <BurguerIngredient type="bread-bottom" key="breadBot" />
     </div>
   )
 }
