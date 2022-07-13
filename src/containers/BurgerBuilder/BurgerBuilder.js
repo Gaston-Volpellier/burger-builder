@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Burger from '../../components/Burger/Burger'
+import Modal from '../../components/UI/Modal/Modal'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -18,30 +20,42 @@ const BurgerBuilder = () => {
       meat: 0,
     },
     totalPrice: 0,
-    purchasable: false,
   })
 
-  const updatePurchase = () => {}
+  const [purchasable, setPurchasable] = useState(false)
+
+  const updatePurchase = () => {
+    const { ingredients } = recipe
+    let isPurchasable = false
+
+    for (let key in ingredients) {
+      if (ingredients[key] > 0) {
+        isPurchasable = true
+      }
+    }
+    console.log(isPurchasable)
+    setPurchasable({ purchasable: isPurchasable })
+  }
 
   const addRecipeHandler = (type) => {
     const { totalPrice, ingredients } = recipe
-
     const newPrice = totalPrice + INGREDIENT_PRICES[type]
 
     ingredients[type] = ingredients[type] + 1
     setRecipe({ ingredients: ingredients, totalPrice: newPrice })
+    updatePurchase()
   }
 
   const removeRecipeHandler = (type) => {
     if (recipe.ingredients[type] <= 0) {
       return
     }
-
     const ingredients = recipe.ingredients
     const newPrice = recipe.totalPrice - INGREDIENT_PRICES[type]
 
     ingredients[type] = ingredients[type] - 1
     setRecipe({ ingredients: ingredients, totalPrice: newPrice })
+    updatePurchase()
   }
 
   const disabledInfo = { ...recipe.ingredients }
@@ -51,12 +65,14 @@ const BurgerBuilder = () => {
 
   return (
     <>
+    <Modal />
       <Burger ingredients={recipe.ingredients} />
       <BuildControls
         ingredientAdded={addRecipeHandler}
         ingredientRemove={removeRecipeHandler}
         disabled={disabledInfo}
         price={recipe.totalPrice}
+        purchasable={purchasable}
       />
     </>
   )
