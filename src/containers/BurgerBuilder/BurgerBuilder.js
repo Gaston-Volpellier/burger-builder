@@ -25,7 +25,7 @@ const BurgerBuilder = () => {
 
   const [modal, setModal] = useState(false)
 
-  const handleModal = (method) => setModal(method)
+  const handleModal = (value) => setModal(value)
 
   const handleIngredient = (method, type) => {
     const { totalPrice, ingredients } = recipe
@@ -53,8 +53,8 @@ const BurgerBuilder = () => {
 
   return (
     <>
-      <Modal show={modal}>
-        <OrderSummary ingredients={recipe.ingredients} />
+      <Modal show={modal} hideModal={handleModal}>
+        <OrderSummary ingredients={recipe.ingredients} cancel={handleModal} />
       </Modal>
 
       <Burger ingredients={recipe.ingredients} />

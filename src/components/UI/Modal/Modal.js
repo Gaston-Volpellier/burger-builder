@@ -1,10 +1,16 @@
 import React from 'react'
+import Backdrop from '../Backdrop/Backdrop'
 import './Modal.css'
 
 const Modal = (props) => {
-  const { show } = props
+  const { show, hideModal } = props
   if (!show) return
-  return <div className="modal">{props.children}</div>
+  return (
+    <>
+      <Backdrop show={show} click={hideModal} />
+      <div className="modal">{props.children}</div>
+    </>
+  )
 }
 
 export default Modal
