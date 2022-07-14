@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import Burger from '../../components/Burger/Burger'
-import Modal from '../../components/UI/Modal/Modal'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
-
+import Burger from '../../components/Burger/Burger'
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -21,56 +19,38 @@ const BurgerBuilder = () => {
     },
     totalPrice: 0,
   })
-
   const [purchasable, setPurchasable] = useState(false)
 
-  const updatePurchase = () => {
-    const { ingredients } = recipe
-    let isPurchasable = false
-
-    for (let key in ingredients) {
-      if (ingredients[key] > 0) {
-        isPurchasable = true
-      }
-    }
-    console.log(isPurchasable)
-    setPurchasable({ purchasable: isPurchasable })
-  }
-
-  const addRecipeHandler = (type) => {
+  const handleIngredient = (method, type) => {
     const { totalPrice, ingredients } = recipe
-    const newPrice = totalPrice + INGREDIENT_PRICES[type]
+    let newPrice
 
-    ingredients[type] = ingredients[type] + 1
-    setRecipe({ ingredients: ingredients, totalPrice: newPrice })
-    updatePurchase()
-  }
-
-  const removeRecipeHandler = (type) => {
-    if (recipe.ingredients[type] <= 0) {
-      return
+    switch (method) {
+      case 'add':
+        ingredients[type] = ingredients[type] + 1
+        newPrice = totalPrice + INGREDIENT_PRICES[type]
+        break
+      case 'substract':
+        ingredients[type] = ingredients[type] - 1
+        newPrice = totalPrice - INGREDIENT_PRICES[type]
+        break
     }
-    const ingredients = recipe.ingredients
-    const newPrice = recipe.totalPrice - INGREDIENT_PRICES[type]
 
-    ingredients[type] = ingredients[type] - 1
     setRecipe({ ingredients: ingredients, totalPrice: newPrice })
-    updatePurchase()
-  }
 
-  const disabledInfo = { ...recipe.ingredients }
-  for (let key in disabledInfo) {
-    disabledInfo[key] = disabledInfo[key] <= 0
+    if (Object.values(ingredients).some((ingrendient) => ingrendient > 0)) {
+      setPurchasable(true)
+    } else {
+      setPurchasable(false)
+    }
   }
 
   return (
     <>
-    <Modal />
       <Burger ingredients={recipe.ingredients} />
       <BuildControls
-        ingredientAdded={addRecipeHandler}
-        ingredientRemove={removeRecipeHandler}
-        disabled={disabledInfo}
+        handleIngredient={handleIngredient}
+        ingredients={recipe.ingredients}
         price={recipe.totalPrice}
         purchasable={purchasable}
       />
