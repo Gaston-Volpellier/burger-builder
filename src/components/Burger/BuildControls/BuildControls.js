@@ -10,7 +10,7 @@ const controls = [
 ]
 
 const BuildControls = (props) => {
-  const { handleIngredient, price, purchasable, ingredients } = props
+  const { handleIngredient, price, purchasable, ingredients, showModal } = props
   return (
     <div className="buildControls">
       <p>
@@ -27,7 +27,11 @@ const BuildControls = (props) => {
           />
         )
       })}
-      <button className="orderButton" disabled={!purchasable}>
+      <button
+        className="orderButton"
+        disabled={!purchasable}
+        onClick={() => showModal(true)}
+      >
         Order now!
       </button>
     </div>
