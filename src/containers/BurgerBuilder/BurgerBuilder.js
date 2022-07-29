@@ -54,7 +54,11 @@ const BurgerBuilder = () => {
   return (
     <>
       <Modal show={modal} hideModal={handleModal}>
-        <OrderSummary ingredients={recipe.ingredients} cancel={handleModal} />
+        <OrderSummary
+          ingredients={recipe.ingredients}
+          price={recipe.totalPrice}
+          cancel={handleModal}
+        />
       </Modal>
 
       <Burger ingredients={recipe.ingredients} />

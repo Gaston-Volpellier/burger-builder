@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../../UI/Button/Button'
 
 const OrderSummary = (props) => {
-  const { ingredients, cancel } = props
+  const { ingredients, cancel, price } = props
 
   const ingredientSummary = Object.entries(ingredients).map(
     ([prop, value], ix) => {
@@ -19,6 +19,9 @@ const OrderSummary = (props) => {
       <h3>Your Order:</h3>
       <ul>{ingredientSummary}</ul>
       <p>Check Out:</p>
+      <p>
+        <strong>Total price: ${price.toFixed(2)}</strong>
+      </p>
       <Button
         style="button danger"
         click={() => {
