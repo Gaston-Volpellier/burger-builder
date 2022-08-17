@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '../../UI/Button/Button'
+import saveData from '../../../firebase'
 
 const OrderSummary = (props) => {
   const { ingredients, cancel, price } = props
@@ -30,7 +31,14 @@ const OrderSummary = (props) => {
       >
         CANCEL
       </Button>
-      <Button style="button success">CONTINUE</Button>
+      <Button
+        style="button success"
+        click={() => {
+          saveData(ingredients, '2')
+        }}
+      >
+        CONTINUE
+      </Button>
     </>
   )
 }
